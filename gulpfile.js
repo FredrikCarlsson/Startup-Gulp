@@ -34,6 +34,20 @@ gulp.task('styles', function(){
 });
 
 /*************************************************************
+Styles Task
+Uglify CSS FOR RESPONSIVE CSSFILE
+*************************************************************/
+gulp.task('responsive', function(){
+	gulp.src('responsive/*.scss')					//Script is placed
+		.pipe(plumber())					//Disable interuptions
+		.pipe(sass())						//Compile it to Sass
+		.pipe(minifycss())					//Minify the CSS file
+		.pipe(prefix('last 2 versions'))	//Broweserprefix the last two versions of browsers
+		.pipe(gulp.dest('build/css'));		//Move it to a new destination
+				
+});
+
+/*************************************************************
 Image task
 Compresses images
 *************************************************************/
@@ -50,6 +64,7 @@ Watches Javascript for changes
 gulp.task('watch', function(){
 	var server = livereload();			
 
+	gulp.watch('responsive/*.scss', ['responsive']); //Watches the responsive CSS for changes
 	gulp.watch('js/*.js', ['scripts']);		//Watches the Javascript for changes
 	gulp.watch('css/*.scss', ['styles'])	//Watches the CSS for changes
 });
@@ -58,4 +73,4 @@ gulp.task('watch', function(){
 
 
 
-gulp.task('default', ['scripts', 'styles', 'image', 'watch']);		//Type gulp to run the file
+gulp.task('default', ['scripts', 'styles', 'image', 'watch', 'responsive']);		//Type gulp to run the file
